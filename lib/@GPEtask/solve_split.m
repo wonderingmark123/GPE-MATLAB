@@ -84,7 +84,7 @@ for j=start+1:niter_outer
             muc = real(grid.inner(phi,task.applyham(phi,time2)))/ncur;
         end
     end
-    task.ext_callback(phi,j,time2,muc,ncur);
+    task.ext_callback(phi,j,(time2+ddt*n_rec),muc,ncur);
     
 end
 

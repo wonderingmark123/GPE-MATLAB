@@ -30,6 +30,8 @@ classdef GPEtask < handle
         spectrum_w
         spectrum_u
         spectrum_v
+        Xscale             % scale parameter for position
+        Tscale             % scale parameter for time.
     end
 
     methods
@@ -47,6 +49,15 @@ classdef GPEtask < handle
             end
             obj.dispstat('','init');
             obj.history = struct('mu',zeros(1,0,'like',grid.x),'n',zeros(1,0,'like',grid.x));
+        end
+        
+        function obj = UpdatePotential(obj,trappot)
+            if(isa(trappot,'function_handle'))
+                obj.Vtrap = trappot(obj.grid.mesh.x,obj.grid.mesh.y,obj.grid.mesh.z);
+            else
+                obj.Vtrap = trappot;
+            end
+            
         end
 
         function v = getVtotal(obj,time)
@@ -125,7 +136,19 @@ classdef GPEtask < handle
                 end
             end
             if(obj.show_image>0)
-                hold off; obj.grid.imagesc(abs(phi)); drawnow;
+                hold off; obj.grid.imagesc(abs(phi));
+                if(isa(obj.Tscale,"double"))
+
+                    title([num2str(time.*obj.Tscale*1000),'ms'])
+                else
+                    title(time); 
+                end
+                if(obj.grid.ndims==1)
+                    hold on 
+                    plot(obj.grid.x,normalize( obj.getVtotal(time)))
+                    hold off
+                end
+                drawnow;
             end
             ttime = toc;
             obj.dispstat(sprintf(['Split-step: iter - %u, mu - %0.3f, calc. time - %0.3f sec.; ',res_text],step,mu,ttime));

@@ -7,6 +7,10 @@ mK=38.963706487*amu; % mass of potassium-39 atom
 a0=5.2917721067e-11; % Bohr radius
 aRB = 100.87*a0; %5.77e-9; % scattering length of rhubidium-87
 aNA = 2.75e-9; % scattering length of sodium-23
+% N_A = 6.02213*10^23;
+% m_Li6 = 0.00601512/N_A;
+m_Li6 = 6.01512*amu;
+
 
 % Hyperfine rhubidium-87 states PRA 87, 053614 (2013)
 % in magnetic field of 3.228 G which cancels the Zeeman splitting
