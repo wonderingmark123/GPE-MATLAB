@@ -32,6 +32,7 @@ classdef GPEtask < handle
         spectrum_v
         Xscale             % scale parameter for position
         Tscale             % scale parameter for time.
+        LatticeConstant    % LatticeConstant for periodic optical lattices
     end
 
     methods
