@@ -108,7 +108,19 @@ classdef GPEtask < handle
             res = real(obj.grid.inner(phi,obj.applyham(phi,time)));
             obj.g=tmp;
         end
-
+        function res = reInitialize(obj)
+            obj.current_state = obj.init_state;
+            obj.current_time = 0;
+            obj.current_iter = 0;
+            obj.current_mu = obj.mu_init;
+            obj.history = struct('mu',zeros(1,0,'like',obj.grid.x) ...
+                ,'n',zeros(1,0,'like',obj.grid.x));
+            obj.current_n = 0;
+            rng('shuffle');
+            if(isa(obj.grid.mesh.x,'gpuArray'))
+                parallel.gpu.rng('shuffle');
+            end
+        end
   end
 
   methods (Access = protected)
@@ -146,7 +158,7 @@ classdef GPEtask < handle
                 end
                 if(obj.grid.ndims==1)
                     hold on 
-                    plot(obj.grid.x,normalize( obj.getVtotal(time)))
+                    plot(obj.grid.x,normalize( obj.getVtotal(time))-2)
                     hold off
                 end
                 drawnow;

@@ -41,8 +41,8 @@ classdef grid1d < handle
     
     function [] = imagesc( obj, fun, varargin )
       %  Plot function on grid.
-      plot( (obj.x), (fun), varargin{ : } );
-      ylabel('|\phi|')
+      plot( (obj.x), (fun.^2), varargin{ : } );
+      ylabel('|\phi|^2')
     end
     
   end
