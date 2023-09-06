@@ -9,3 +9,13 @@
 *.bak
 *Notes.bib
 junk/**
+*.mat
+*.01
+examples/Data/D532_1D_Tstep3_Tnow19.98Theta1
+examples/Data/D532_1D_Tstep1_Tnow3.99Theta0.9
+examples/Data/D532_1D_Tstep1_Tnow3.99Theta0.99
+examples/Data/D532_1D_Tstep3_Tnow19.98Theta0.97
+examples/Data/D532_1D_Tstep3_Tnow19.98Theta0.98
+examples/Data/D532_1D_Tstep3_Tnow19.98Theta0.99
+examples/Data/D532_1D_Tstep3_Tnow19.98Theta1.02
+examples/Data/D532_1D_Tstep3_Tnow19.98Theta1.03

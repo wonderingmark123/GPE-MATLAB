@@ -1,4 +1,4 @@
-%% fft analysis of the wavefunction
+%% fft analysis of the 1D wavefunction
 % PlotFigure = 0;   plot the figure or not
 % NmaxP = 100;      maximum mode of momentum to be analyzed
 function ReturnText = FFTanalysis(task,PlotFigure,NmaxP)
@@ -13,7 +13,6 @@ if PlotFigure
     hold off
     plot((-n/2:n/2-1),abs(Phi_FFT).^2)
     title('FFT analysis of Phi')
-    xlim([-200 200])
     drawnow
 end
 

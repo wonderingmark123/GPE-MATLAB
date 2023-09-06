@@ -16,6 +16,10 @@ grid = task.grid;
 % VV = task.getVtotal(0);
 g = task.g;
 omega = task.omega;
+task.history.tstep = ddt;
+task.history.steps_int = niter_inner;
+task.history.steps_ext = niter_outer;
+
 if(task.Ntotal > 0)
     NN0 = task.Ntotal;
 else
@@ -35,6 +39,7 @@ if(start>0)
     phi = task.current_state;
 else
     phi = task.init_state;
+    task.ext_callback(phi,0,(ddt*n_rec),task.mu_init,task.Ntotal);
 end
 
 tmp2 = real(phi.*conj(phi));

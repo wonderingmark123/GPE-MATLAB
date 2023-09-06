@@ -33,6 +33,8 @@ classdef GPEtask < handle
         Xscale             % scale parameter for position
         Tscale             % scale parameter for time.
         LatticeConstant    % LatticeConstant for periodic optical lattices
+        whisper = true     % print out the current status
+        userData = struct()% place to store user's data
     end
 
     methods
@@ -83,7 +85,31 @@ classdef GPEtask < handle
                 res = res + obj.grid.lap(phi);
             end
         end
+        function message = saveTask(obj,varargin)
 
+            if nargin==2
+                FileFolder = varargin{1};
+            else
+                % default saving path
+                FileFolder = './Data/';
+            end
+            NameStr = '';
+            if nargin>1
+                for i = 1:nargin-1
+                    NameStr = [NameStr,varargin{i}];
+                end
+            end
+            FileName = [FileFolder,'D',num2str(obj.LatticeConstant*10^9,3)...
+                ,'_',num2str(obj.grid.ndims),'D'...
+                ,'_Tstep',num2str(obj.history.tstep*obj.Tscale*10^9)...
+                ,'_Tnow',num2str(obj.current_time*obj.Tscale*10^6),...
+                NameStr];
+            save(FileName,"obj");
+            message = ['Successfully saved in ',FileName];
+            
+            
+
+        end
         function res = applyh0(obj,phi,time)
             if(nargin==2)
                 time = obj.current_time;
@@ -135,9 +161,11 @@ classdef GPEtask < handle
             obj.current_time = time;
             obj.current_iter = step;
             obj.current_mu = mu;
-            obj.history.mu(step) = mu;
             obj.current_n = n;
-            obj.history.n(step) = n;
+            if step>0
+                obj.history.mu(step) = mu;
+                obj.history.n(step) = n;
+            end
             res_text='';
 
             if(isa(obj.user_callback,'function_handle'))
@@ -164,7 +192,9 @@ classdef GPEtask < handle
                 drawnow;
             end
             ttime = toc;
-            obj.dispstat(sprintf(['Split-step: iter - %u, mu - %0.3f, calc. time - %0.3f sec.; ',res_text],step,mu,ttime));
+            if obj.whisper
+                obj.dispstat(sprintf(['Split-step: iter - %u, mu - %0.3f, calc. time - %0.3f sec.; ',res_text],step,mu,ttime));
+            end
             res = res_text;
         end
     end
